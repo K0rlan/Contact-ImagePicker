@@ -21,6 +21,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
         self.tableView.reloadData()
         
+        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.data.count
@@ -36,6 +37,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let image: UIImage = UIImage(data: contact.image! as Data)!
         cell.img.image = image
         return cell
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            try! realm.write{
+            realm.delete(data[indexPath.row])
+            }
+        }
+        tableView.reloadData()
     }
     
 }

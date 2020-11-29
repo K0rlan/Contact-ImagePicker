@@ -7,12 +7,16 @@
 
 import UIKit
 import ContactsUI
+import Realm
+import RealmSwift
 
 class AddViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     let contactsController = CNContactPickerViewController()
     let pickerController = UIImagePickerController()
     var image: UIImage?
+    
+    var realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +78,15 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate & UIN
     }
     
     @IBAction func save(_ sender: Any) {
+        let contacts = ContactBook()
+        contacts.name = nameA.text ?? ""
+        contacts.number = phoneA.text ?? ""
+        let img = NSData(data: imgA.image!.jpegData(compressionQuality: 0.5)!)
+        contacts.image = img
+        try! realm.write {
+            realm.add(contacts)
+        }
+        self.navigationController!.pushViewController(self.storyboard!.instantiateViewController(withIdentifier: "ViewController") as UIViewController, animated: true)
     }
     
     
