@@ -1,0 +1,6 @@
+framework module Pods_AdditionalForPicker {
+  umbrella header "Pods-AdditionalForPicker-umbrella.h"
+
+  export *
+  module * { export * }
+}
